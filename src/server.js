@@ -7,12 +7,20 @@ const taskRoutes = require("./routes/taskRoutes");
 
 const app = express();
 
-app.use(cors());
+// 👉 Bật CORS, cho phép FE truy cập API
+app.use(cors({
+  origin: "*",   // để demo. Nếu muốn an toàn hơn thì đổi thành: "https://tasknet-frontend.vercel.app"
+  credentials: true
+}));
+
+// Middlewares
 app.use(express.json());
 app.use(morgan("dev"));
 
+// Test route
 app.get("/", (_, res) => res.json({ ok: true }));
 
+// API routes
 app.use("/api/tasks", taskRoutes);
 
 (async () => {
