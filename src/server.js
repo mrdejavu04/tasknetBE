@@ -32,7 +32,7 @@ console.log("✅ Mounted /api/tasks and /ping routes");
 (async () => {
   try {
     await connectDB(process.env.MONGO_URI);
-    const port = process.env.PORT || 4000;
+    const port = process.env.PORT;
     const host = "0.0.0.0"; // Render expose
     app.listen(port, host, () =>
       console.log(`🚀 Server running on http://${host}:${port}`)
