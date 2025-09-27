@@ -8,13 +8,13 @@ const taskRoutes = require("./routes/taskRoutes");
 const app = express();
 
 // 👉 Bật CORS, cho phép FE truy cập API
-
 app.use(cors({
-  origin: "https://tasknet-fe.vercel.app",  // domain FE của bạn trên Vercel
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: "https://tasknet-fe.vercel.app",  // FE domain
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
+
 // Middlewares
 app.use(express.json());
 app.use(morgan("dev"));
@@ -22,15 +22,18 @@ app.use(morgan("dev"));
 // Test route
 app.get("/", (_, res) => res.json({ ok: true }));
 
+// Ping route để check server sống
+app.get("/ping", (_, res) => res.json({ msg: "pong" }));
+
 // API routes
 app.use("/api/tasks", taskRoutes);
-app.get("/ping", (_, res) => res.json({ msg: "pong" }));
+console.log("✅ Mounted /api/tasks and /ping routes");
 
 (async () => {
   try {
     await connectDB(process.env.MONGO_URI);
     const port = process.env.PORT || 4000;
-    const host = "0.0.0.0"; // 👈 Bắt buộc để Render expose ra ngoài
+    const host = "0.0.0.0"; // Render expose
     app.listen(port, host, () =>
       console.log(`🚀 Server running on http://${host}:${port}`)
     );
