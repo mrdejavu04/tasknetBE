@@ -24,6 +24,7 @@ app.get("/", (_, res) => res.json({ ok: true }));
 
 // API routes
 app.use("/api/tasks", taskRoutes);
+app.get("/ping", (_, res) => res.json({ msg: "pong" }));
 
 (async () => {
   try {
