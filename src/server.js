@@ -9,9 +9,11 @@ const app = express();
 
 // 👉 Bật CORS, cho phép FE truy cập API
 app.use(cors({
-  origin: "*",   // để demo. Nếu muốn an toàn hơn thì đổi thành: "https://tasknet-frontend.vercel.app"
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
+
 
 // Middlewares
 app.use(express.json());
