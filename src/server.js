@@ -19,7 +19,10 @@ app.use("/api/tasks", taskRoutes);
   try {
     await connectDB(process.env.MONGO_URI);
     const port = process.env.PORT || 4000;
-    app.listen(port, () => console.log(`🚀 Server running on http://localhost:${port}`));
+    const host = "0.0.0.0"; // 👈 Bắt buộc để Render expose ra ngoài
+    app.listen(port, host, () =>
+      console.log(`🚀 Server running on http://${host}:${port}`)
+    );
   } catch (err) {
     console.error("❌ DB connection failed:", err.message);
     process.exit(1);
