@@ -3,6 +3,17 @@ const Task = require("../models/Task");
 exports.createTask = async (req, res) => {
   try {
     const body = req.body || {};
+
+        // ✅ Nếu có dueAt thì không được nhỏ hơn hôm nay
+    if (body.dueAt) {
+      const dueDate = new Date(body.dueAt);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (dueDate < today) {
+        return res.status(400).json({ error: "Ngày hạn (due date) không được ở quá khứ" });
+      }
+    }
+
     const task = await Task.create(body);
     res.status(201).json(task);
   } catch (err) {
